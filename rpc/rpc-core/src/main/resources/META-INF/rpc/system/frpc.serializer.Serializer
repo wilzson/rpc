@@ -1,0 +1,3 @@
+jdk=frpc.serializer.JdkSerializer
+hessian=frpc.serializer.HessianSerializer
+kryo=frpc.serializer.KryoSerializer

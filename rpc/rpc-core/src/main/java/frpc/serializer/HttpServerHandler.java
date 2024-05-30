@@ -1,5 +1,6 @@
 package frpc.serializer;
 
+import frpc.RpcApplication;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
@@ -15,7 +16,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest httpServerRequest) {
         // 指定序列器
-        final Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         // 记录日志
         System.out.println("Received request: " + httpServerRequest.method() + " " + httpServerRequest.uri());
@@ -27,8 +28,8 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
             try {
                 // 根据http中的请求然后反序列化到rpccrequest
                 rpcRequest = serializer.deserialize(bytes, RpcRequest.class);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             // 构造响应结果对象

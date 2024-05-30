@@ -14,7 +14,7 @@ public class ConsumerExample {
         user.setName("fzf");
         // 调用
         User newUser = userService.getUser(user);
-
+        System.out.println(newUser);
 //        long number = userService.getNumber();
 //        System.out.println(number);
 

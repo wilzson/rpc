@@ -1,5 +1,6 @@
 package frpc.config;
 
+import frpc.serializer.SerializerKeys;
 import lombok.Data;
 
 /**
@@ -11,7 +12,7 @@ public class RpcConfig {
     /**
      * 名称
      */
-    private String name = "yu-rpc";
+    private String name = "rpc";
 
     /**
      *  版本号
@@ -27,4 +28,9 @@ public class RpcConfig {
      * 模拟调用
      */
     private boolean mock = false;
+
+    /**
+     * 序列器
+     */
+    private String serializer = SerializerKeys.JDK;
 }

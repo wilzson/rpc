@@ -1,11 +1,13 @@
 package frpc.proxy;
 
 import com.github.javafaker.Faker;
+//import frpc.model.User;
+import frpc.model.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import frpc.model.User;
+
 
 @Slf4j
 public class MockServiceProxy implements InvocationHandler {

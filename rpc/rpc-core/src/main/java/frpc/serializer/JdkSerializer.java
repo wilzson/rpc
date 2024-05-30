@@ -2,7 +2,23 @@ package frpc.serializer;
 
 import java.io.*;
 
-public class JdkSerializer implements Serializer{
+/**
+ * JDK 序列化器
+ *
+ * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
+ * @learn <a href="https://codefather.cn">编程宝典</a>
+ * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ */
+public class JdkSerializer implements Serializer {
+
+    /**
+     * 序列化
+     *
+     * @param object
+     * @param <T>
+     * @return
+     * @throws IOException
+     */
     @Override
     public <T> byte[] serialize(T object) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -12,6 +28,15 @@ public class JdkSerializer implements Serializer{
         return outputStream.toByteArray();
     }
 
+    /**
+     * 反序列化
+     *
+     * @param bytes
+     * @param type
+     * @param <T>
+     * @return
+     * @throws IOException
+     */
     @Override
     public <T> T deserialize(byte[] bytes, Class<T> type) throws IOException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
