@@ -1,5 +1,5 @@
-import model.User;
-import proxy.ServiceProxyFactory;
+import frpc.model.User;
+import frpc.proxy.ServiceProxyFactory;
 import service.UserService;
 
 /**

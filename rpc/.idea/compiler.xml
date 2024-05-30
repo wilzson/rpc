@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <excludeFromCompile>
       <directory url="file://$PROJECT_DIR$/example-common/src/main/resources/archetype-resources" includeSubdirectories="true" />
     </excludeFromCompile>
@@ -18,5 +19,10 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="18" />
+  </component>
+  <component name="JavacSettings">
+    <option name="PREFER_TARGET_JDK_COMPILER" value="false" />
+    <option name="DEBUGGING_INFO" value="false" />
+    <option name="DEPRECATION" value="false" />
   </component>
 </project>

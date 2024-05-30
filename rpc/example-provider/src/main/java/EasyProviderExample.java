@@ -1,6 +1,6 @@
-import registry.LocalRegistry;
-import server.HttpServer;
-import server.VertxHttpServer;
+import frpc.registry.LocalRegistry;
+import frpc.server.HttpServer;
+import frpc.server.VertxHttpServer;
 import service.UserService;
 
 public class EasyProviderExample {

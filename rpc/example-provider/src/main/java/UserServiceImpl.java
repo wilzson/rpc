@@ -1,4 +1,4 @@
-import model.User;
+import frpc.model.User;
 import service.UserService;
 
 public class UserServiceImpl implements UserService {

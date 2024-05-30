@@ -1,7 +1,7 @@
 package service;
 
 
-import model.User;
+import frpc.model.User;
 
 /**
  * 用户服务
@@ -16,4 +16,15 @@ public interface UserService {
      * @return
      */
     User getUser(User user);
+
+    /**
+     * 新方法
+     */
+    default short getNumber() {
+        return 1;
+    }
+
+    default User mockUser() {
+        return null;
+    }
 }

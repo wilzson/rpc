@@ -1,43 +1,47 @@
+package frpc.proxy;
+
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import frpc.model.RpcRequest;
 import frpc.model.RpcResponse;
-import frpc.model.User;
 import frpc.serializer.JdkSerializer;
 import frpc.serializer.Serializer;
-import service.UserService;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 
 /**
- * 用户服务静态代理
-
+ * 动态代理 需要实现InvocationHandler接口的invoke方法
+ * 静态代理——相当于给每一个方法写一个特定的方法，然后去远程访问并返回对应结果
  */
-public class UserServiceProxy implements UserService {
+public class ServiceProxy implements InvocationHandler {
 
-    public User getUser(User user) {
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 指定序列化器
-        final Serializer serializer = new JdkSerializer();
+        Serializer serializer = new JdkSerializer();
 
         // 构造请求
         RpcRequest rpcRequest = RpcRequest.builder()
-                .serviceName(UserService.class.getName())
-                .methodName("getUser")
-                .parameterTypes(new Class[]{User.class})
-                .args(new Object[]{user})
+                .serviceName(method.getDeclaringClass().getName())
+                .methodName(method.getName())
+                .parameterTypes(method.getParameterTypes())
+                .args(args)
                 .build();
         try {
-            // 序列化（Java 对象 => 字节数组）
+            // 序列化
             byte[] bodyBytes = serializer.serialize(rpcRequest);
-
             // 发送请求
+            // todo 注意，这里地址被硬编码了（需要使用注册中心和服务发现机制解决）
             try (HttpResponse httpResponse = HttpRequest.post("http://localhost:8080")
                     .body(bodyBytes)
                     .execute()) {
                 byte[] result = httpResponse.bodyBytes();
-                // 反序列化（字节数组 => Java 对象）
+                // 反序列化
                 RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
-                return (User) rpcResponse.getData();
+                return rpcResponse.getData();
             }
         } catch (IOException e) {
             e.printStackTrace();
