@@ -1,8 +1,6 @@
-import frpc.config.RpcConfig;
 import frpc.model.User;
 import frpc.proxy.ServiceProxyFactory;
-import frpc.utils.ConfigUtils;
-import service.UserService;
+import frpc.service.UserService;
 
 public class ConsumerExample {
     public static void main(String[] args) {
@@ -14,7 +12,7 @@ public class ConsumerExample {
         user.setName("fzf");
         // 调用
         User newUser = userService.getUser(user);
-        System.out.println(newUser);
+        System.out.println(newUser.getName());
 //        long number = userService.getNumber();
 //        System.out.println(number);
 

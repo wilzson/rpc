@@ -1,6 +1,7 @@
 package frpc.spi;
 
 import cn.hutool.core.io.resource.ResourceUtil;
+import frpc.registry.Registry;
 import frpc.serializer.Serializer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,10 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * SPI 加载器
  * 自定义实现，支持键值对映射
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @learn <a href="https://codefather.cn">程序员鱼皮的编程宝典</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @Slf4j
 public class SpiLoader {
@@ -133,10 +130,11 @@ public class SpiLoader {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        loadAll();
+        load(Registry.class);
         System.out.println(loaderMap);
-        Serializer serializer = getInstance(Serializer.class, "jdk");
-        System.out.println(serializer);
+//        Serializer serializer = getInstance(Serializer.class, "jdk");
+        Registry registry = getInstance(Registry.class, "etcd");
+        System.out.println(registry);
     }
 
 }

@@ -1,7 +1,7 @@
 package frpc.proxy;
 
 import com.github.javafaker.Faker;
-//import frpc.model.User;
+import frpc.model.User;
 import frpc.model.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,7 +57,7 @@ public class MockServiceProxy implements InvocationHandler {
         if (type == User.class) {
             User user = new User();
             String name = faker.name().fullName();
-            System.out.println(name);
+            System.out.println("mock " + name);
             user.setName(name);
             return user;
         }

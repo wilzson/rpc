@@ -1,4 +1,4 @@
-package frpc.model;
+package frpc;
 
 
 import lombok.AllArgsConstructor;

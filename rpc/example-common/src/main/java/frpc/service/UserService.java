@@ -1,4 +1,4 @@
-package service;
+package frpc.service;
 
 
 import frpc.model.User;

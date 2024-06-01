@@ -12,5 +12,5 @@ public class RpcConstant {
     /**
      * 默认服务版本
      */
-    static String DEFAULT_SERVICE_VERSION = "1.0";
+    public static String DEFAULT_SERVICE_VERSION = "1.0";
 }

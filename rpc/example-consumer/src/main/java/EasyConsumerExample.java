@@ -1,6 +1,6 @@
 import frpc.model.User;
 import frpc.proxy.ServiceProxyFactory;
-import service.UserService;
+import frpc.service.UserService;
 
 /**
  * 简易服务消费者示例

@@ -5,8 +5,8 @@ import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import frpc.model.RpcRequest;
-import frpc.model.RpcResponse;
+import frpc.RpcRequest;
+import frpc.RpcResponse;
 import frpc.registry.LocalRegistry;
 
 import java.io.IOException;

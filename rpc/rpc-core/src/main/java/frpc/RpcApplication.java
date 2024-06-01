@@ -1,7 +1,10 @@
 package frpc;
 
+import frpc.config.RegistryConfig;
 import frpc.config.RpcConfig;
 import frpc.constant.RpcConstant;
+import frpc.proxy.RegistryFactory;
+import frpc.registry.Registry;
 import lombok.extern.slf4j.Slf4j;
 import frpc.utils.ConfigUtils;
 
@@ -19,6 +22,13 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
         log.info("rpc init, frpc.config = {}", newRpcConfig.toString());
+        // 注册中心初始化
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init, config = {}", registryConfig);
+        // 创建并注册Shutdown Hook， JVM退出时执行操作
+        Runtime.getRuntime().addShutdownHook(new Thread(registry::destroy));
     }
     /**
      * 初始化

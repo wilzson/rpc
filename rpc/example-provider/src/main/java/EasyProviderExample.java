@@ -1,7 +1,7 @@
 import frpc.registry.LocalRegistry;
 import frpc.server.HttpServer;
 import frpc.server.VertxHttpServer;
-import service.UserService;
+import frpc.service.UserService;
 
 public class EasyProviderExample {
     public static void main(String[] args) {
