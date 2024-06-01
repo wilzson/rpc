@@ -12,6 +12,7 @@ import frpc.ServiceMetaInfo;
 import io.etcd.jetcd.*;
 import io.etcd.jetcd.options.GetOption;
 import io.etcd.jetcd.options.PutOption;
+import io.etcd.jetcd.watch.WatchEvent;
 
 
 import java.nio.charset.StandardCharsets;
@@ -39,7 +40,7 @@ public class EtcdRegistry implements Registry {
     /**
      * 注册中心服务缓存
      */
-//    private final RegistryServiceCache registryServiceCache = new RegistryServiceCache();
+    private final RegistryServiceCache registryServiceCache = new RegistryServiceCache();
 
     /**
      * 正在监听的 key 集合
@@ -72,7 +73,7 @@ public class EtcdRegistry implements Registry {
         Lease leaseClient = client.getLeaseClient();
 
         // 创建一个 30 秒的租约
-        long leaseId = leaseClient.grant(3000).get().getID();
+        long leaseId = leaseClient.grant(30).get().getID();
 
         // 设置要存储的键值对
         String registerKey = ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey();
@@ -97,10 +98,10 @@ public class EtcdRegistry implements Registry {
     @Override
     public List<ServiceMetaInfo> serviceDiscovery(String serviceKey) {
         // 优先从缓存获取服务
-//        List<ServiceMetaInfo> cachedServiceMetaInfoList = registryServiceCache.readCache();
-//        if (cachedServiceMetaInfoList != null) {
-//            return cachedServiceMetaInfoList;
-//        }
+        List<ServiceMetaInfo> cachedServiceMetaInfoList = registryServiceCache.readCache();
+        if (cachedServiceMetaInfoList != null) {
+            return cachedServiceMetaInfoList;
+        }
 
         // 前缀搜索，结尾一定要加 '/'
         String searchPrefix = ETCD_ROOT_PATH + serviceKey + "/";
@@ -124,7 +125,7 @@ public class EtcdRegistry implements Registry {
                     })
                     .collect(Collectors.toList());
             // 写入服务缓存
-//            registryServiceCache.writeCache(serviceMetaInfoList);
+            registryServiceCache.writeCache(serviceMetaInfoList);
             return serviceMetaInfoList;
 //            return null;
         } catch (Exception e) {
@@ -172,25 +173,26 @@ public class EtcdRegistry implements Registry {
      */
     @Override
     public void watch(String serviceNodeKey) {
-//        Watch watchClient = client.getWatchClient();
-//        // 之前未被监听，开启监听
-//        boolean newWatch = watchingKeySet.add(serviceNodeKey);
-//        if (newWatch) {
-//            watchClient.watch(ByteSequence.from(serviceNodeKey, StandardCharsets.UTF_8), response -> {
-//                for (WatchEvent event : response.getEvents()) {
-//                    switch (event.getEventType()) {
-//                        // key 删除时触发
-//                        case DELETE:
-//                            // 清理注册服务缓存
-//                            registryServiceCache.clearCache();
-//                            break;
-//                        case PUT:
-//                        default:
-//                            break;
-//                    }
-//                }
-//            });
-//        }
+        // TODO 监听这部分有错误
+        Watch watchClient = client.getWatchClient();
+        // 之前未被监听，开启监听
+        boolean newWatch = watchingKeySet.add(serviceNodeKey);
+        if (newWatch) {
+            watchClient.watch(ByteSequence.from(serviceNodeKey, StandardCharsets.UTF_8), response -> {
+                for (WatchEvent event : response.getEvents()) {
+                    switch (event.getEventType()) {
+                        // key 删除时触发
+                        case DELETE:
+                            // 清理注册服务缓存
+                            registryServiceCache.clearCache();
+                            break;
+                        case PUT:
+                        default:
+                            break;
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -198,13 +200,13 @@ public class EtcdRegistry implements Registry {
         System.out.println("当前节点下线");
         // 下线节点
         // 遍历本节点所有的 key
-//        for (String key : localRegisterNodeKeySet) {
-//            try {
-//                kvClient.delete(ByteSequence.from(key, StandardCharsets.UTF_8)).get();
-//            } catch (Exception e) {
-//                throw new RuntimeException(key + "节点下线失败");
-//            }
-//        }
+        for (String key : localRegisterNodeKeySet) {
+            try {
+                kvClient.delete(ByteSequence.from(key, StandardCharsets.UTF_8)).get();
+            } catch (Exception e) {
+                throw new RuntimeException(key + "节点下线失败");
+            }
+        }
 
         // 释放资源
         if (kvClient != null) {

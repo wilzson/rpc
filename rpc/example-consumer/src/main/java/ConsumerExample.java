@@ -15,8 +15,9 @@ public class ConsumerExample {
         System.out.println(newUser.getName());
 //        long number = userService.getNumber();
 //        System.out.println(number);
-
-        User user1 = userService.mockUser();
-        System.out.println(user1);
+        User newUser1 = userService.getUser(user);
+        System.out.println(newUser1.getName());
+        User user1 = userService.getUser(user);
+        System.out.println(user1.getName());
     }
 }
