@@ -1,5 +1,6 @@
 package frpc.config;
 
+import frpc.loadbalancer.LoadBalancerKeys;
 import frpc.serializer.SerializerKeys;
 import lombok.Data;
 
@@ -43,4 +44,9 @@ public class RpcConfig {
      * 注册中心配置
      */
     private RegistryConfig registryConfig = new RegistryConfig();
+
+    /**
+     * 负载均衡
+     */
+    private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
 }

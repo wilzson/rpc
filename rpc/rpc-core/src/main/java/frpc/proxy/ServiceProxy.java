@@ -1,22 +1,24 @@
 package frpc.proxy;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
 import frpc.RpcApplication;
 import frpc.config.RpcConfig;
 import frpc.constant.RpcConstant;
 import frpc.RpcRequest;
 import frpc.RpcResponse;
 import frpc.ServiceMetaInfo;
+import frpc.loadbalancer.LoadBalanceFactory;
+import frpc.loadbalancer.LoadBalancer;
 import frpc.registry.Registry;
 import frpc.serializer.Serializer;
 import frpc.serializer.SerializerFactory;
+import frpc.server.tcp.VertxTcpClient;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 动态代理 需要实现InvocationHandler接口的invoke方法
@@ -28,7 +30,6 @@ public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 指定序列化器
-//        Serializer serializer = new JdkSerializer();
         Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
         String serviceName = method.getDeclaringClass().getName();
 
@@ -40,8 +41,6 @@ public class ServiceProxy implements InvocationHandler {
                 .args(args)
                 .build();
         try {
-            // 序列化
-            byte[] bodyBytes = serializer.serialize(rpcRequest);
             // 发送请求
             // 从注册中心获取服务提供者请求地址
             RpcConfig rpcConfig = RpcApplication.getRpcConfig();
@@ -53,20 +52,19 @@ public class ServiceProxy implements InvocationHandler {
             if (CollUtil.isEmpty(serviceMetaInfoList)) {
                 throw new RuntimeException("暂无服务地址");
             }
-            // 暂时取第一个
-            ServiceMetaInfo selectedService = serviceMetaInfoList.get(0);
-            try (HttpResponse httpResponse = HttpRequest.post(selectedService.getServiceAddress())
-                    .body(bodyBytes)
-                    .execute()) {
-                byte[] result = httpResponse.bodyBytes();
-                // 反序列化
-                RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
-                return rpcResponse.getData();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//            // 暂时取第一个
+//            ServiceMetaInfo selectedService = serviceMetaInfoList.get(0);
+            LoadBalancer loadBalancer = LoadBalanceFactory.getInstance(rpcConfig.getLoadBalancer());
+            // 将调用方法名作为负载均衡参数
+            Map<String, Object> requestParams = new HashMap<>();
+            requestParams.put("methodName", rpcRequest.getMethodName());
+            ServiceMetaInfo selectedService = loadBalancer.select(requestParams, serviceMetaInfoList);
 
-        return null;
+            // 发送TCP请求
+            RpcResponse response = VertxTcpClient.doRequest(rpcRequest, selectedService);
+            return response.getData();
+        } catch (Exception e) {
+            throw new RuntimeException("调用失败");
+        }
     }
 }

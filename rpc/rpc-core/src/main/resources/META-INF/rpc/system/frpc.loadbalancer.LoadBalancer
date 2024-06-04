@@ -1,0 +1,3 @@
+roundRobin=frpc.loadbalancer.RoundRobinLoadBalancer
+random=frpc.loadbalancer.RandomLoadBalancer
+consistentHash=frpc.loadbalancer.ConsistentHashLoadBalancer

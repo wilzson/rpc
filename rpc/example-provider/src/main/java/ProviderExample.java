@@ -7,6 +7,7 @@ import frpc.registry.LocalRegistry;
 import frpc.registry.Registry;
 import frpc.server.HttpServer;
 import frpc.server.VertxHttpServer;
+import frpc.server.tcp.VertxTcpServer;
 import frpc.service.UserService;
 
 public class ProviderExample {
@@ -37,7 +38,10 @@ public class ProviderExample {
         }
 
         // 提供服务
-        HttpServer httpServer = new VertxHttpServer();
-        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+//        HttpServer httpServer = new VertxHttpServer();
+//        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+
+        VertxTcpServer tcpServer = new VertxTcpServer();
+        tcpServer.doStart(8082);
     }
 }
