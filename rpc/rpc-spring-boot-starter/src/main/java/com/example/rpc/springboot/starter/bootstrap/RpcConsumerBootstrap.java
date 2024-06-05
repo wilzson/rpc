@@ -22,6 +22,11 @@ public class RpcConsumerBootstrap implements BeanPostProcessor {
      * @return
      * @throws BeansException
      */
+    /**
+     * Field在Java中是类中用于存储数据的成员变量。在反射中，可以通过field来获取属性
+     * getFields(): 该方法用于获取某个类以及父类中所有公有字段。公有字段是指用public修饰的字段
+     * getDeclaredFields(): 该方法用于获取某个类中声明的所有字段，包括公有、私有、受保护的字段，但不包括继承的字段
+     */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         Class<?> beanClass = bean.getClass();

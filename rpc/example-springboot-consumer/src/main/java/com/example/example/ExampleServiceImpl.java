@@ -2,6 +2,7 @@ package com.example.example;
 
 import com.example.rpc.springboot.starter.annotation.RpcReference;
 import frpc.model.User;
+
 import frpc.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class ExampleServiceImpl {
      */
     public void test() {
         User user = new User();
-        user.setName("yupi");
+        user.setName("fenzefeng");
         User resultUser = userService.getUser(user);
         System.out.println(resultUser.getName());
     }
