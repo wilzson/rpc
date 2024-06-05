@@ -1,7 +1,7 @@
 package frpc.registry;
 
 
-import frpc.ServiceMetaInfo;
+import frpc.model.ServiceMetaInfo;
 
 import java.util.List;
 

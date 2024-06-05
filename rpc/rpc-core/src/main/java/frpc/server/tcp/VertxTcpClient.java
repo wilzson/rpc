@@ -2,9 +2,9 @@ package frpc.server.tcp;
 
 import cn.hutool.core.util.IdUtil;
 import frpc.RpcApplication;
-import frpc.RpcRequest;
-import frpc.RpcResponse;
-import frpc.ServiceMetaInfo;
+import frpc.model.RpcRequest;
+import frpc.model.RpcResponse;
+import frpc.model.ServiceMetaInfo;
 import frpc.protocol.*;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
@@ -31,12 +31,15 @@ public class VertxTcpClient {
         Vertx vertx = Vertx.vertx();
         NetClient netClient = vertx.createNetClient();
         CompletableFuture<RpcResponse> responseFuture = new CompletableFuture<>();
+//        throw new RuntimeException("模拟发生异常");
         netClient.connect(serviceMetaInfo.getServicePort(), serviceMetaInfo.getServiceHost(),
                 result -> {
                     if (!result.succeeded()) {
+//                        throw new RuntimeException("Failed to connect to TCP server");
                         System.err.println("Failed to connect to TCP server");
                         return;
                     }
+
                     NetSocket socket = result.result();
                     // 发送数据
                     // 构造消息
@@ -60,7 +63,8 @@ public class VertxTcpClient {
                     }
 
                     // 接收响应
-                    TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(buffer -> {
+                    TcpBufferHandlerWrapper bufferHandlerWrapper = new TcpBufferHandlerWrapper(
+                            buffer -> {
                                 try {
                                     ProtocolMessage<RpcResponse> rpcResponseProtocolMessage = (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
                                     responseFuture.complete(rpcResponseProtocolMessage.getBody());
@@ -70,7 +74,6 @@ public class VertxTcpClient {
                             }
                     );
                     socket.handler(bufferHandlerWrapper);
-
                 });
 
         RpcResponse rpcResponse = responseFuture.get();

@@ -1,4 +1,4 @@
-package frpc;
+package frpc.model;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;

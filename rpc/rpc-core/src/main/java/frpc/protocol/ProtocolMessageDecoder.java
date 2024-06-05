@@ -1,8 +1,8 @@
 package frpc.protocol;
 
 
-import frpc.RpcRequest;
-import frpc.RpcResponse;
+import frpc.model.RpcRequest;
+import frpc.model.RpcResponse;
 import frpc.serializer.Serializer;
 import frpc.serializer.SerializerFactory;
 import io.vertx.core.buffer.Buffer;

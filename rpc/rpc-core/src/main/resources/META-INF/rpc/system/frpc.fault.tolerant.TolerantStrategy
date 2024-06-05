@@ -1,0 +1,4 @@
+failBack=frpc.fault.tolerant.FailBackTolerantStrategy
+failFast=frpc.fault.tolerant.FailFastTolerantStrategy
+failOver=frpc.fault.tolerant.FailOverTolerantStrategy
+failSafe=frpc.fault.tolerant.FailSafeTolerantStrategy

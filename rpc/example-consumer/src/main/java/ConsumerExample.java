@@ -1,11 +1,11 @@
+import frpc.bootstrap.ConsumerBootstrap;
 import frpc.model.User;
 import frpc.proxy.ServiceProxyFactory;
 import frpc.service.UserService;
 
 public class ConsumerExample {
     public static void main(String[] args) {
-//        RpcConfig rpc = ConfigUtils.loadConfig(RpcConfig.class, "rpc");
-//        System.out.println(rpc);
+        ConsumerBootstrap.init();
         // 获取代理
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();

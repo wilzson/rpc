@@ -1,8 +1,8 @@
 package frpc.server.tcp;
 
 
-import frpc.RpcRequest;
-import frpc.RpcResponse;
+import frpc.model.RpcRequest;
+import frpc.model.RpcResponse;
 import frpc.protocol.*;
 import frpc.registry.LocalRegistry;
 import io.vertx.core.Handler;

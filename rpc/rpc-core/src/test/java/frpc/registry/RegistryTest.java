@@ -1,8 +1,7 @@
 package frpc.registry;
 
-import frpc.ServiceMetaInfo;
+import frpc.model.ServiceMetaInfo;
 import frpc.config.RegistryConfig;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

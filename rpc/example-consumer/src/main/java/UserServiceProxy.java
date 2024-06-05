@@ -1,7 +1,7 @@
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
-import frpc.RpcRequest;
-import frpc.RpcResponse;
+import frpc.model.RpcRequest;
+import frpc.model.RpcResponse;
 import frpc.model.User;
 import frpc.serializer.JdkSerializer;
 import frpc.serializer.Serializer;

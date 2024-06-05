@@ -1,4 +1,4 @@
-package frpc;
+package frpc.model;
 
 
 import frpc.constant.RpcConstant;

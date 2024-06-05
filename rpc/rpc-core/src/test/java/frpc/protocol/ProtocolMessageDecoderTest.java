@@ -1,10 +1,9 @@
 package frpc.protocol;
 
 import cn.hutool.core.util.IdUtil;
-import frpc.RpcRequest;
+import frpc.model.RpcRequest;
 import frpc.constant.RpcConstant;
 import io.vertx.core.buffer.Buffer;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 

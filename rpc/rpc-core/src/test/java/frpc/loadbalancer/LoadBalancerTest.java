@@ -1,6 +1,6 @@
 package frpc.loadbalancer;
 
-import frpc.ServiceMetaInfo;
+import frpc.model.ServiceMetaInfo;
 import org.junit.Assert;
 import org.junit.Test;
 

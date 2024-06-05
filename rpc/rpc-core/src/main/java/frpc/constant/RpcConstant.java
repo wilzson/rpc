@@ -3,7 +3,7 @@ package frpc.constant;
 /**
  * RPC 相关常量
  */
-public class RpcConstant {
+public interface RpcConstant {
     /**
      * 默认配置文件加载前缀
      */

@@ -1,0 +1,2 @@
+no=frpc.fault.retry.NoRetryStrategy
+fixedInterval=frpc.fault.retry.FixedIntervalRetryStrategy

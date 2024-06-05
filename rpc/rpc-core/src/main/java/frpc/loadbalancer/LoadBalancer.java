@@ -1,7 +1,7 @@
 package frpc.loadbalancer;
 
 
-import frpc.ServiceMetaInfo;
+import frpc.model.ServiceMetaInfo;
 
 import java.util.List;
 import java.util.Map;

@@ -3,7 +3,7 @@ package frpc;
 import frpc.config.RegistryConfig;
 import frpc.config.RpcConfig;
 import frpc.constant.RpcConstant;
-import frpc.proxy.RegistryFactory;
+import frpc.registry.RegistryFactory;
 import frpc.registry.Registry;
 import lombok.extern.slf4j.Slf4j;
 import frpc.utils.ConfigUtils;

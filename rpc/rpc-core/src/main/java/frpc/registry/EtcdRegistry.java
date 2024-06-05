@@ -7,7 +7,7 @@ import cn.hutool.cron.task.Task;
 import cn.hutool.json.JSONUtil;
 
 import frpc.config.RegistryConfig;
-import frpc.ServiceMetaInfo;
+import frpc.model.ServiceMetaInfo;
 
 import io.etcd.jetcd.*;
 import io.etcd.jetcd.options.GetOption;

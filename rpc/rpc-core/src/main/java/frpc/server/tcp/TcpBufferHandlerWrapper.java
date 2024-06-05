@@ -29,7 +29,7 @@ public class TcpBufferHandlerWrapper implements Handler<Buffer> {
         // 构造 parser
         RecordParser parser = RecordParser.newFixed(ProtocolConstant.MESSAGE_HEADER_LENGTH);
 
-        parser.setOutput(new Handler<>() {
+        parser.setOutput(new Handler<Buffer>() {
             // 初始化
             int size = -1;
             // 一次完整的读取（头 + 体）

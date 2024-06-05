@@ -1,4 +1,4 @@
-package frpc.proxy;
+package frpc.registry;
 
 import frpc.registry.EtcdRegistry;
 import frpc.registry.Registry;
